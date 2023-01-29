@@ -1,126 +1,287 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;600&family=Signika:wght@300;400;500;600;700&display=swap');
-$colorGrid: #efefef;
-$colorReset: #dddddd;
-$colorText: #253438;
+$page-bg: #4682B4;
+$game-bg: "http://www.scottishrugby.org/sites/default/files/hero-images/xqe7-xjv.jpeg";
 
-*{
-  padding:0;
-  margin:0;
-  font-family: 'Rubik', sans-serif;
-  font-weight: 800;
-  text-transform: uppercase;
+
+
+/************* 
+Base
+**************/
+
+html, body{
+  counter-reset: hit;
+  width:100%;
+  height:100%;
   box-sizing:border-box;
-  color:$colorText;
-  -webkit-transition: .2s ease-in-out;
-  -moz-transition: .2s ease-in-out;
-  -o-transition: .2s ease-in-out;
-  transition: .2s ease-in-out;
+  cursor: crosshair;
+  background:$page-bg;
 }
 
-body {
-  display: grid;
-  place-items: center;
-  height:100vh;
-  background: rgb(255,255,255);
-  background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(237,237,237,1) 100%);
-  background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(237,237,237,1) 100%);
-  background: radial-gradient(ellipse at center,  rgba(255,255,255,1) 0%,rgba(237,237,237,1) 100%);
-  
-  section{
-    max-width:600px;
-    width:90%;
-    display:grid;
-    padding:40px 0px;
-    
+*, *:before, *:after{
+  box-sizing:border-box;
+  cursor: crosshair;
+}
+
+input{
+  width:300px;
+  height:100%;
+  appearance: none;
+  &:focus {
+    outline: none;
+    appearance: none;
+  }
+}
+
+a{
+  color:red;
+  text-decoration: none; 
+}
+
+/************* 
+layout
+**************/
+.l-header-container{
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  margin-right:auto;
+  margin-left:auto;
+  width:1100px;
+  height:130px;
+  text-align:center;
+  background:rgba(white, .6);
+}
+
+.l-game-container{
+  position:absolute;
+  top:130px;
+  right: 0;
+  left:0;
+  display:flex;
+  flex-direction:column;
+  margin-right: auto;
+  margin-left: auto;
+  width:1100px;
+  height:700px;
+  background:url($game-bg);
+  background-repeat:no-repeat;
+  background-size:cover;
+  overflow: hidden;
+}
+
+// .l-curtain{
+//   position:absolute;
+//   width:370px;
+//   height:750px;
+//   background:url(http://vignette4.wikia.nocookie.net/glee/images/1/13/Theater_curtain_left-1-.png/revision/latest?cb=20120610182415);
+//   background-repeat:no-repeat;
+//   z-index:2;
+//   &--right{
+//     top:175px;
+//     left:1050px;
+//     transform: rotateY(180deg);
+//   }
+//   &--left{
+//     top:175px;
+//     left:200px;
+//   }
+// }
+
+// .l-top-curtain{
+//   position:absolute;
+//   top:125px;
+//   left:200px;
+//   width:1220px;
+//   height:100px;
+//   background:url(http://www.hexhamstagesociety.com/wp-content/themes/hass/lib/img/header_mask.png);
+//   z-index:3;
+// }
+
+.l-game-bottom{
+  position:absolute;
+  top:670px;
+  right:0;
+  left:0;
+  margin-right: auto;
+  margin-left: auto;
+  width:1100px;
+  height:220px;
+  background:repeating-linear-gradient( to right, #8B0000, #8B0000 10px, #FAEBD7 10px, #FAEBD7 20px);
+  // &:before{
+  //   content:'';
+  //   position:absolute;
+  //   top:-50px;
+  //   left:80px;
+  //   width:1050px;
+  //   height:100px;
+  //   background:url("http://www.clker.com/cliparts/Z/b/L/c/1/X/sea-waves-hi.png");
+  //   animation: flow 1s forwards  infinite;
+  // }
+}
+
+
+.l-game-over{
+  position:absolute;
+  top:-2000px;
+  width:100%;
+  height:1000px;
+  background:repeating-linear-gradient(45deg, rgba(#8B0000, .6), rgba(#8B0000, .6) 10px, rgba(#FAEBD7, .6) 10px, rgba(#FAEBD7, .6) 20px);
+  z-index:5;
+  text-align:center;
+  cursor: pointer;
+  animation: over 3s forwards 13s;
+}
+/************* 
+modules
+**************/
+
+.game-header{
+  padding:20px;
+  font-size:30px;
+  font-weight:bolder;
+}
+
+.game-header::after {
+  content: counter(hit);
+}
+
+.game-row{
+  width:1500px;
+  height:180px;
+  border-bottom: 5px solid brown;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.duck-row{
+  display:flex;
+  flex-wrap:no-wrap;
+  margin-left: -4000px;
+  width:5000px;
+  height:200px;
+  transform-style: preserve-3d;
+  animation: move 18s linear forwards 1;
+  &--two{
+    margin-left: 2000px;
+    animation: move2 15s linear forwards .3s 1;
+  }
+  &--three{
+    animation: move 14s linear forwards 3s 1;
+  }
+  &__box{
+    margin-top:50px;
+    margin-right:100px;
+    width:150px;
+    height:150px;
+    &--reverse{
+      transform: rotateY(180deg);
+    }
+  }
+  &__img{
+    width: 150px;
+    height: 150px;
+    margin-top: -150px;
+    background:url(http://www.clker.com/cliparts/a/2/4/0/12375609741965607715pitr_Ducky_icon.svg.med.png);
+    background-size:contain;
+    transition:all .2s;
+  }
+}
+
+
+.game-over{
+  position:absolute;
+  top:100px;
+  right:0;
+  left:0;
+  margin-right: auto;
+  margin-left: auto;
+  width:800px;
+  height:479px;
+  background:white;
+  font-size:30px;
+  background:url(https://s-media-cache-ak0.pinimg.com/736x/d9/a7/fc/d9a7fc470357f881adb27b0ed507f94d.jpg), red;
+  background-size:cover;
+  background-repeat:no-repeat;
+  .game-txt{
+    position:absolute;
+    top:190px;
+    width:100%;
+    height:60px;
     h1{
-      width: 100%;
-      text-align:center;
-      margin-bottom:40px;
-      font-size:30px;
+      font-size:70px;
     }
-    
-    .grid-zone{
-      display:grid;
-      box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
-      &:before{
-        content:'';
-        padding-bottom:100%;
-        display:block;
-        grid-area: 1 / 1 / 2 / 2;
-      }
-      
-      .grid{
-        grid-area: 1 / 1 / 2 / 2;
-        border:solid 1px $colorGrid;
-        display:grid;
-        grid-template-columns: repeat(20, 1fr);
-        grid-template-rows: 5%;
-        
-        .pixel{
-          border:solid 1px $colorGrid;
-          cursor:pointer;
-        }
-      }
-    }
-    
-    button{
-      width:auto;
-      margin:0 auto;
-      margin-top:30px;
-      border: solid 2px $colorReset;
-      border-radius:3px;
-      font-size:15px;
-      background-color:transparent;
-      color: $colorReset;
-      font-weight:500;
-      text-transform:uppercase;
-      padding:3px 20px 7px;
-      cursor:pointer;
+  }
+}
 
-      &:hover{
-        color:$colorText;
-        border: solid 2px $colorText;
-      }
-    }
-    
-    h2{
-      width:100%;
-      text-align:center;
-      margin:40px 0px;
-    }
-    
-    .palettes{
-      display:grid;
-      grid-row-gap:20px;
-      .palette{
-        height:100px;
-        background-color: #fff;
-        border-radius:3px;
-        box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
-        padding:10px;
-        display:grid;
-        grid-template-columns: repeat(auto-fit, minmax(1%, 1fr));
-        cursor:pointer;
-        transform:scale(0.9);
-        opacity:0.3;
+.game-score::after {
+  content: counter(hit);
+}
 
-        &:hover{
-          opacity:1;
-        }
-        
-      }
-      .radio{
-        display:none;
-      }
-      .radio:checked{
-        + .palette{
-          transform:scale(1);
-          opacity:1;
-        }
-      }
+
+
+/************* 
+States
+**************/
+
+input:checked {
+  counter-increment: hit;
+  &:after{
+    content:"+1";
+    position:relative;
+    top:80px; 
+    left:150px;
+    padding:10px;
+    width:75px;
+    height:75px;
+    z-index:5;
+    color:gold;
+    font-size:30px;
+    background:rgba(black, .6);
+    border-radius:50%;
+    animation: hit 2s forwards;
+    
+  }
+  & ~.duck-row__img{
+    background:url(http://cliparts.co/cliparts/zcX/oqo/zcXoqorgi.png);
+    background-size:contain;
+    &:after{
+      content:"";
+      position:absolute;
+      top:20;
+      left:500;
+      width:inherit;
+      height:inherit;
     }
   }
 }
 
 
 
+@keyframes move {
+  0%{margin-left: -4000px;}
+  100%{margin-left:2500px;}
+}
+
+@keyframes move2 {
+  0%{margin-left: 2000px;}
+  100%{margin-left:-4000px;}
+}
+
+
+@keyframes flow{
+  0%{left:80px;}
+  50%{left:65px}
+}
+
+@keyframes hit{
+  0%{top:80px;}
+  100%{
+    top:10px;
+    display:none;
+  }
+}
+
+@keyframes over{
+  0%{top:-2000px}
+  100%{top:0;}
+}
