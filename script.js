@@ -1,3 +1,5 @@
+const d3 = require("d3");
+
 const canvas = d3.select('.canvas')
 const colorInput = d3.select('#colorPicker')
 const marker = d3.select('.marker')
